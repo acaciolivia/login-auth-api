@@ -18,17 +18,14 @@ public class TokenService {
     @Value("${api.security.token.secret}")
     private String scret;
 
-
-    //Método de criação do token
     public String generateToken(User use) {
         try {
-        //Definir/gerar o algoritimo de criptografia que vai ser usado
-            Algorithm algorithm = Algorithm.HMAC256(scret);//tem que passar uma secret key
+            Algorithm algorithm = Algorithm.HMAC256(scret);
             String token = JWT.create()
-                    .withIssuer("api") //quem está emitindo esse token
-                    .withSubject(use.getEmail()) //quem está ganhando esse token
-                    .withExpiresAt(this.generationExpirationDate()) //Quando vai expirar
-                    .sign(algorithm); //gerar o token
+                    .withIssuer("api")
+                    .withSubject(use.getEmail())
+                    .withExpiresAt(this.generationExpirationDate())
+                    .sign(algorithm);
             return token;
         } catch (JWTCreationException exception) {
             throw new RuntimeException("Error while authenticating");
